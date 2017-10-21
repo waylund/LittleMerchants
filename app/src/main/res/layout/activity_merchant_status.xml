@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.brotherslynn.littlemerchants.MerchantStatusActivity">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="1"
+        android:layout_margin="7px">
+
+        <TextView
+            android:id="@+id/labelHelloMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="Hello Merchant!"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_column="0"
+            android:layout_row="0" />
+
+        <TextView
+            android:id="@+id/labelMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:fontFamily="casual"
+            android:text="1726 G"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </GridLayout>
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:background="@color/locationBar"
+        android:layout_margin="10px">
+
+        <TextView
+            android:id="@+id/labelTitleCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="Location:"
+            android:textSize="16sp"
+            android:layout_margin="4px" />
+
+        <TextView
+            android:id="@+id/labelValueCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:text="Travelling"
+            android:textSize="30sp"
+            android:layout_margin="4px" />
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:background="@color/locationBar"
+        android:layout_margin="10px">
+
+        <TextView
+            android:id="@+id/labelTitleDestination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:fontFamily="sans-serif"
+            android:text="Destination:"
+            android:textSize="16sp"
+            android:layout_margin="4px" />
+
+        <TextView
+            android:id="@+id/labelValueDestination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:fontFamily="cursive"
+            android:text="Portlandia"
+            android:textSize="30sp"
+            android:layout_margin="4px" />
+
+        <ProgressBar
+            android:id="@+id/progressBarTravel"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/labelTravelCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12 Steps"
+            android:layout_column="0"
+            android:layout_row="2"/>
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="3"
+        android:rowCount="1"
+        android:layout_margin="10px">
+
+        <Button
+            android:id="@+id/buttonResPlayerLoc"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset Player Location"
+            android:layout_column="0"
+            android:layout_row="0" />
+
+        <Button
+            android:id="@+id/buttonAddDestination"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Destination"
+            android:layout_column="1"
+            android:layout_row="0" />
+    </GridLayout>
+
+
+</LinearLayout>
