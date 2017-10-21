@@ -1,14 +1,23 @@
 package com.brotherslynn.littlemerchants.objects;
 
-/**
- * Created by danielmlynn on 10/17/17.
- */
+import java.util.UUID;
 
 public class Location {
 
+
+
+    private UUID id;
     private String name;
     private int location_x;
     private int location_y;
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
+    }
 
     public String getName()
     {

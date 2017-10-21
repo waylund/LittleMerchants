@@ -49,6 +49,7 @@ public class TitleActivity extends AppCompatActivity {
             Context appContext = getApplicationContext();
 
             GameManager gameManager = new GameManager(appContext);
+            gameManager.syncLocations();
             Player player = gameManager.getLocalPlayer();
             if (player.getMerchantType() == -1) {
                 //redirect to character creation
@@ -72,7 +73,7 @@ public class TitleActivity extends AppCompatActivity {
                 }
 
             return null;
-        };
+        }
     }
 
 }

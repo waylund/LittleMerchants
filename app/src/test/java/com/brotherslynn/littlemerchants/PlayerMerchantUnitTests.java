@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runners.Parameterized;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class PlayerMerchantUnitTests {
 
-    GameManager gameManager = new GameManager(new TestDataConnector());
+    private GameManager gameManager = new GameManager(new TestDataConnector());
 
     @Test
     public void getMerchantType() throws Exception {
@@ -161,5 +162,12 @@ public class PlayerMerchantUnitTests {
         testPlayer.setTrip(null);
         boolean didUpdate = gameManager.addStepsToTrip(testPlayer, 5);
         assertFalse(didUpdate);
+    }
+
+    @Test
+    public void getAllLocations()
+    {
+        List<Location> locations = gameManager.getAllLocations();
+        assertEquals(5, locations.size());
     }
 }

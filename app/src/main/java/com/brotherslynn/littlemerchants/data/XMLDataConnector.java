@@ -8,6 +8,7 @@ import com.brotherslynn.littlemerchants.objects.Trip;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -30,9 +32,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-/**
- * Created by danielmlynn on 10/14/17.
- */
 
 public class XMLDataConnector implements IDataConnector {
 
@@ -119,6 +118,83 @@ public class XMLDataConnector implements IDataConnector {
         } catch (Exception e) {
             throw new InvalidParameterException("String is not properly formatted XML.");
         }
+    }
+
+    private Document LocationsToXML(List<Location> locations)
+    {
+        Document doc = null;
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            doc = db.newDocument();
+
+            Element rootEle = doc.createElement("locations");
+
+            for (Location loc : locations) {
+
+                Element locElem = doc.createElement("location");
+
+                Element name = doc.createElement("name");
+                name.appendChild(doc.createTextNode(loc.getName()));
+                Element id = doc.createElement("id");
+                id.appendChild(doc.createTextNode(loc.getId().toString()));
+                Element x = doc.createElement("x");
+                x.appendChild(doc.createTextNode(Integer.toString(loc.getLocationX())));
+                Element y = doc.createElement("y");
+                y.appendChild(doc.createTextNode(Integer.toString(loc.getLocationY())));
+
+                locElem.appendChild(id);
+                locElem.appendChild(name);
+                locElem.appendChild(x);
+                locElem.appendChild(y);
+                rootEle.appendChild(locElem);
+            }
+
+
+            doc.appendChild(rootEle);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidParameterException("Error creating XML Document");
+        }
+
+        return doc;
+    }
+
+    private List<Location> XMLToLocations(Document doc)
+    {
+        ArrayList<Location> locations = new ArrayList<Location>();
+        NodeList lNodes = doc.getElementsByTagName("location");
+        for (int i=0; i< lNodes.getLength(); i++)
+        {
+            NodeList cNodes = lNodes.item(i).getChildNodes();
+            Location loc = new Location();
+            int x = -1;
+            int y = -1;
+            for (int n = 0; n < cNodes.getLength(); n++) {
+                switch (cNodes.item(n).getNodeName())
+                {
+                    case "id":
+                        loc.setId(UUID.fromString(cNodes.item(n).getTextContent()));
+                        break;
+                    case "name":
+                        loc.setName(cNodes.item(n).getTextContent());
+                        break;
+                    case "x":
+                        x = Integer.parseInt(cNodes.item(n).getTextContent());
+                        break;
+                    case "y":
+                        y = Integer.parseInt(cNodes.item(n).getTextContent());
+                        break;
+                }
+            }
+            if (x > -1 && y > -1)
+            {
+                loc.setLocationCoordinates(x,y);
+            }
+            locations.add(loc);
+        }
+        return locations;
     }
 
     private Document PlayerToXML(Player player)
@@ -323,7 +399,7 @@ public class XMLDataConnector implements IDataConnector {
     public Player getPlayer()
     {
         String playerContents = readFileContents("localMerchant.xml");
-        if (!playerContents.contains("[Error") && playerContents != "")
+        if (!playerContents.contains("[Error") && !playerContents.equals(""))
             return XMLToPlayer(xmlDocumentFromString(playerContents));
         else return new Player();
         //return new Player();
@@ -342,8 +418,29 @@ public class XMLDataConnector implements IDataConnector {
         return didWrite;
     }
 
+    public boolean syncLocations(List<Location> locations)
+    {
+        Document saveLocations = null;
+        try {
+            saveLocations = LocationsToXML(locations);
+        } catch (Exception e)
+        {
+            String error = e.getLocalizedMessage();
+        }
+        boolean didWrite = writeFile(saveLocations, "locations.xml");
+        return didWrite;
+    }
+
     public Location getLocation(UUID id)
     {
         throw new UnsupportedOperationException("Method Not Implemented on XML Data connector.");
+    }
+
+    public List<Location> getAllLocations()
+    {
+        String locationContents = readFileContents("locations.xml");
+        if (!locationContents.contains("[Error") && !locationContents.equals(""))
+            return XMLToLocations(xmlDocumentFromString(locationContents));
+        else return new ArrayList<Location>();
     }
 }
