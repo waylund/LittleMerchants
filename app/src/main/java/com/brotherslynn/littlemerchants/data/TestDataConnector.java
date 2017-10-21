@@ -59,6 +59,10 @@ public class TestDataConnector implements IDataConnector {
             loc.setId(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
             loc.setName("Northwick");
             loc.setLocationCoordinates(11500,11000);
+            ArrayList<UUID> connections = new ArrayList<UUID>();
+            connections.add(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2"));
+            connections.add(UUID.fromString("171d4ffc-385d-4fb1-8ab6-fcf3c78509ef"));
+            loc.setConnections(connections);
         } else {
             loc.setName("Portlandia");
             loc.setLocationCoordinates(11500,11000);
@@ -78,6 +82,10 @@ public class TestDataConnector implements IDataConnector {
         loc2.setId(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
         loc2.setName("Northwick");
         loc2.setLocationCoordinates(11500,11000);
+        ArrayList<UUID> connections = new ArrayList<UUID>();
+        connections.add(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2"));
+        connections.add(UUID.fromString("171d4ffc-385d-4fb1-8ab6-fcf3c78509ef"));
+        loc2.setConnections(connections);
         locs.add(loc2);
         Location loc3 = new Location();
         loc3.setId(UUID.fromString("26c794e9-45f6-4a4e-a0da-1c34ae179c4a"));

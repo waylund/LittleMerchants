@@ -170,4 +170,14 @@ public class PlayerMerchantUnitTests {
         List<Location> locations = gameManager.getAllLocations();
         assertEquals(5, locations.size());
     }
+
+    @Test
+    public void getConnectedLocations()
+    {
+        Location loc = gameManager.getLocation(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
+        List<UUID> locationIds = loc.getConnections();
+        assertEquals(2, locationIds.size());
+        assertTrue(locationIds.contains(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2")));
+        assertTrue(locationIds.contains(UUID.fromString("171d4ffc-385d-4fb1-8ab6-fcf3c78509ef")));
+    }
 }
