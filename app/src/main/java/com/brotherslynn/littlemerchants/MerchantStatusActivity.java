@@ -20,6 +20,8 @@ import com.brotherslynn.littlemerchants.objects.Location;
 import com.brotherslynn.littlemerchants.objects.Player;
 import com.brotherslynn.littlemerchants.objects.Trip;
 
+import java.util.UUID;
+
 public class MerchantStatusActivity extends AppCompatActivity implements SensorEventListener {
     SensorManager sensorManager;
     GameManager gameManager;
@@ -92,7 +94,7 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
             destination.setText(currentTrip.getDestination().getName());
             travel.setVisibility(View.VISIBLE);
             progress.setVisibility(View.VISIBLE);
-            travel.setText(currentTrip.getSteps() + " / " + currentTrip.getDistance() + "Steps");
+            travel.setText(currentTrip.getSteps() + " / " + currentTrip.getDistance() + " Steps");
             progress.setMax(100);
             progress.setProgress((int) Math.ceil(currentTrip.getSteps()/currentTrip.getDistance()));
         }
@@ -100,9 +102,7 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
 
     private void resetPlayerLocation(View view)
     {
-        Location loc = new Location();
-        loc.setName("Denveria");
-        loc.setLocationCoordinates(10000,10000);
+        Location loc = gameManager.getLocation(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2"));
         localPlayer.setCurrentLocation(loc);
         localPlayer.setTrip(null);
         gameManager.savePlayer(localPlayer);
@@ -111,9 +111,7 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
 
     private void setDestination(View view)
     {
-        Location loc = new Location();
-        loc.setName("Portlandia");
-        loc.setLocationCoordinates(10050,10050);
+        Location loc = gameManager.getLocation(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
         gameManager.startNewTrip(localPlayer, localPlayer.getCurrentSteps(), loc);
         gameManager.savePlayer(localPlayer);
         refreshLocations();

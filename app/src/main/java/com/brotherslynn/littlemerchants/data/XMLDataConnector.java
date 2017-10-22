@@ -142,11 +142,19 @@ public class XMLDataConnector implements IDataConnector {
                 x.appendChild(doc.createTextNode(Integer.toString(loc.getLocationX())));
                 Element y = doc.createElement("y");
                 y.appendChild(doc.createTextNode(Integer.toString(loc.getLocationY())));
+                Element connections = doc.createElement("connections");
+                for (UUID cid : loc.getConnections())
+                {
+                    Element connection = doc.createElement("connection");
+                    connection.appendChild(doc.createTextNode(cid.toString()));
+                    connections.appendChild(connection);
+                }
 
                 locElem.appendChild(id);
                 locElem.appendChild(name);
                 locElem.appendChild(x);
                 locElem.appendChild(y);
+                locElem.appendChild(connections);
                 rootEle.appendChild(locElem);
             }
 
@@ -185,6 +193,23 @@ public class XMLDataConnector implements IDataConnector {
                         break;
                     case "y":
                         y = Integer.parseInt(cNodes.item(n).getTextContent());
+                        break;
+                    case "connections":
+                        if (cNodes.item(n).hasChildNodes()) {
+                            NodeList connectionNodes = cNodes.item(n).getChildNodes();
+                            ArrayList<UUID> connections = new ArrayList<UUID>();
+                            for (int k = 0; k < connectionNodes.getLength(); k++) {
+                                if (connectionNodes.item(k).getNodeName().equals("connection"))
+                                {
+                                    connections.add(UUID.fromString(connectionNodes.item(k).getTextContent()));
+                                }
+                            }
+                            loc.setConnections(connections);
+                        }
+                        else
+                        {
+                            loc.setConnections(new ArrayList<UUID>());
+                        }
                         break;
                 }
             }
@@ -433,7 +458,14 @@ public class XMLDataConnector implements IDataConnector {
 
     public Location getLocation(UUID id)
     {
-        throw new UnsupportedOperationException("Method Not Implemented on XML Data connector.");
+        for (Location loc : getAllLocations())
+        {
+            if (loc.getId().equals(id))
+            {
+                return loc;
+            }
+        }
+        return null;
     }
 
     public List<Location> getAllLocations()

@@ -30,11 +30,11 @@ public class LittleMerchantAcceptanceTests {
         gameManager.startNewTrip(testPlayer, 10000, testDest);
 
         // post conditions
-        assertEquals("Hometown USA", testPlayer.getCurrentLocation().getName());
+        assertEquals("Whitfair", testPlayer.getCurrentLocation().getName());
         assertEquals(10000, testPlayer.getTrip().getStartingStepCount());
         assertEquals(1802, testPlayer.getTrip().getDistance());
         assertEquals(0, testPlayer.getTrip().getSteps());
-        assertEquals("Portlandia", testPlayer.getTrip().getDestination().getName());
+        assertEquals("Northwick", testPlayer.getTrip().getDestination().getName());
 
     }
 
@@ -52,20 +52,36 @@ public class LittleMerchantAcceptanceTests {
         // post conditions
         assertEquals(null, testPlayer.getCurrentLocation());
         assertEquals(152, testPlayer.getTrip().getSteps());
-        assertEquals("Portlandia", testPlayer.getTrip().getDestination().getName());
+        assertEquals("Northwick", testPlayer.getTrip().getDestination().getName());
     }
 
     @Test
     public void MapLocations_NumberofConnections()
     {
-        // b73f1468-b85f-4cb7-aa3d-950c6ce19bf2   Whitfair (10000,10000)
+        // b73f1468-b85f-4cb7-aa3d-950c6ce19bf2   Whitfair (10000,10000) Whitfield?
         // 26c794e9-45f6-4a4e-a0da-1c34ae179c4a   Janis Farmstead (9050,9050)
         // 7e26f6dd-7343-4878-9076-c2b2b1758489   Northwick (11500,11000)
         // 171d4ffc-385d-4fb1-8ab6-fcf3c78509ef   Portsmouth (13000,10500)
         // 02baeaef-9f97-444c-976f-9a4dbe859638   Portsmouth Sea Port (12900,10450)
 
         Location startingLoc = gameManager.getLocation(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2"));
-        List<Location> locs = gameManager.getConnectedLocations(gameManager.getLocation(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2")));
-        assertEquals(3, locs.size());
+
+        assertTrue(connectsTo(startingLoc, "Northwick"));
+        assertTrue(connectsTo(startingLoc, "Portsmouth"));
+        assertTrue(connectsTo(startingLoc, "Janis Farmstead"));
+        assertFalse(connectsTo(startingLoc, "Portsmouth Sea Port"));
+    }
+
+    private boolean connectsTo(Location origination, String connectionName)
+    {
+        List<Location> locs = gameManager.getConnectedLocations(origination);
+        for (Location loc : locs)
+        {
+            if (loc.getName().equals(connectionName))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
