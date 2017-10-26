@@ -30,7 +30,7 @@ public class LittleMerchantAcceptanceTests {
         gameManager.startNewTrip(testPlayer, 10000, testDest);
 
         // post conditions
-        assertEquals("Whitfair", testPlayer.getCurrentLocation().getName());
+        assertEquals("Whitfield", testPlayer.getCurrentLocation().getName());
         assertEquals(10000, testPlayer.getTrip().getStartingStepCount());
         assertEquals(1802, testPlayer.getTrip().getDistance());
         assertEquals(0, testPlayer.getTrip().getSteps());
@@ -58,7 +58,7 @@ public class LittleMerchantAcceptanceTests {
     @Test
     public void MapLocations_NumberofConnections()
     {
-        // b73f1468-b85f-4cb7-aa3d-950c6ce19bf2   Whitfair (10000,10000) Whitfield?
+        // b73f1468-b85f-4cb7-aa3d-950c6ce19bf2   Whitfield (10000,10000) Whitfield?
         // 26c794e9-45f6-4a4e-a0da-1c34ae179c4a   Janis Farmstead (9050,9050)
         // 7e26f6dd-7343-4878-9076-c2b2b1758489   Northwick (11500,11000)
         // 171d4ffc-385d-4fb1-8ab6-fcf3c78509ef   Portsmouth (13000,10500)
@@ -69,6 +69,18 @@ public class LittleMerchantAcceptanceTests {
         assertTrue(connectsTo(startingLoc, "Northwick"));
         assertTrue(connectsTo(startingLoc, "Portsmouth"));
         assertTrue(connectsTo(startingLoc, "Janis Farmstead"));
+        assertFalse(connectsTo(startingLoc, "Portsmouth Sea Port"));
+    }
+
+    @Test
+    public void MapLocations_NumberofConnections_Example2()
+    {
+
+        Location startingLoc = gameManager.getLocation(UUID.fromString("26c794e9-45f6-4a4e-a0da-1c34ae179c4a"));
+
+        assertFalse(connectsTo(startingLoc, "Northwick"));
+        assertTrue(connectsTo(startingLoc, "Whitfield"));
+        assertFalse(connectsTo(startingLoc, "Portsmouth"));
         assertFalse(connectsTo(startingLoc, "Portsmouth Sea Port"));
     }
 

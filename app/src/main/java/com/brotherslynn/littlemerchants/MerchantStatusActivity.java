@@ -1,6 +1,7 @@
 package com.brotherslynn.littlemerchants;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -72,6 +73,7 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
 
     }
 
+
     private void refreshLocations()
     {
         currentLoc = (TextView) findViewById(R.id.labelValueCurrentLocation);
@@ -84,9 +86,11 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
         destination = (TextView) findViewById(R.id.labelValueDestination);
         travel = (TextView) findViewById(R.id.labelTravelCounter);
         progress = (ProgressBar) findViewById(R.id.progressBarTravel);
+        Button setDestButton = (Button) findViewById(R.id.buttonAddDestination);
         Trip currentTrip = localPlayer.getTrip();
         if (currentTrip == null) {
             destination.setText("None");
+            setDestButton.setVisibility(View.VISIBLE);
             travel.setVisibility(View.GONE);
             progress.setVisibility(View.GONE);
         }
@@ -94,6 +98,7 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
             destination.setText(currentTrip.getDestination().getName());
             travel.setVisibility(View.VISIBLE);
             progress.setVisibility(View.VISIBLE);
+            setDestButton.setVisibility(View.GONE);
             travel.setText(currentTrip.getSteps() + " / " + currentTrip.getDistance() + " Steps");
             progress.setMax(100);
             progress.setProgress((int) Math.ceil(currentTrip.getSteps()/currentTrip.getDistance()));
@@ -111,9 +116,11 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
 
     private void setDestination(View view)
     {
-        Location loc = gameManager.getLocation(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
-        gameManager.startNewTrip(localPlayer, localPlayer.getCurrentSteps(), loc);
-        gameManager.savePlayer(localPlayer);
+        //Location loc = gameManager.getLocation(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
+        //gameManager.startNewTrip(localPlayer, localPlayer.getCurrentSteps(), loc);
+        //gameManager.savePlayer(localPlayer);
+        Intent newIntent = new Intent(view.getContext(), SelectDestinationActivity.class);
+        startActivity(newIntent);
         refreshLocations();
     }
 
@@ -128,7 +135,7 @@ public class MerchantStatusActivity extends AppCompatActivity implements SensorE
 
             Toast.makeText(this, "Count sensor not available!", Toast.LENGTH_LONG).show();
         }
-
+        refreshLocations();
     }
 
     @Override

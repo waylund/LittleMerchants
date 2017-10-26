@@ -115,7 +115,7 @@ public class PlayerMerchantUnitTests {
         Location testLocation2 = gameManager.getLocation(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));
         String locationName1 = testLocation1.getName();
         String locationName2 = testLocation2.getName();
-        assertEquals("Whitfair", locationName1);
+        assertEquals("Whitfield", locationName1);
         assertEquals("Northwick", locationName2);
     }
 
@@ -182,7 +182,7 @@ public class PlayerMerchantUnitTests {
     }
 
     @Test
-    public void getConnectedLocations_Whitfair()
+    public void getConnectedLocations_Whitfield()
     {
         Location loc = gameManager.getLocation(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2"));
         List<UUID> locationIds = loc.getConnections();

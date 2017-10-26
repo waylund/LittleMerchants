@@ -105,7 +105,7 @@ public class GameManager {
         ArrayList<Location> locs = new ArrayList<Location>();
         Location loc1 = new Location();
         loc1.setId(UUID.fromString("b73f1468-b85f-4cb7-aa3d-950c6ce19bf2"));
-        loc1.setName("Whitfair");
+        loc1.setName("Whitfield");
         loc1.setLocationCoordinates(10000,10000);
         ArrayList<UUID> connections = new ArrayList<UUID>();
         connections.add(UUID.fromString("7e26f6dd-7343-4878-9076-c2b2b1758489"));

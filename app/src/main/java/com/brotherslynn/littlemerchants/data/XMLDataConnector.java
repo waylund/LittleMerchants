@@ -248,23 +248,7 @@ public class XMLDataConnector implements IDataConnector {
             // current Location
             Location currentLoc = player.getCurrentLocation();
             cloc = doc.createElement("currentlocation");
-            if (currentLoc != null) {
-
-                cloc = doc.createElement("currentlocation");
-
-                Element locName = doc.createElement("name");
-                locName.appendChild(doc.createTextNode(currentLoc.getName()));
-                Element locX = doc.createElement("locx");
-                locX.appendChild(doc.createTextNode(Integer.toString(currentLoc.getLocationX())));
-                Element locY = doc.createElement("locy");
-                locY.appendChild(doc.createTextNode(Integer.toString(currentLoc.getLocationY())));
-
-                cloc.appendChild(locName);
-                cloc.appendChild(locX);
-                cloc.appendChild(locY);
-
-            }
-
+            cloc.appendChild(doc.createTextNode(currentLoc.getId().toString()));
             rootEle.appendChild(cloc);
 
 
@@ -329,35 +313,10 @@ public class XMLDataConnector implements IDataConnector {
                     player.setCurrentSteps(Integer.parseInt(attr.item(n).getTextContent()));
                     break;
                 case "currentlocation":
-
-                    if (attr.item(n).hasChildNodes())
-                    {
-                        Location currentLoc = new Location();
-                        NodeList cNodes = attr.item(n).getChildNodes();
-                        int x = -1;
-                        int y = -1;
-                        for (int i = 0; i < cNodes.getLength(); i++) {
-                            switch (cNodes.item(i).getNodeName()) {
-                                case "name":
-                                    currentLoc.setName(cNodes.item(i).getTextContent());
-                                    break;
-                                case "locx":
-                                    x = Integer.parseInt(cNodes.item(i).getTextContent());
-                                    break;
-                                case "locy":
-                                    y = Integer.parseInt(cNodes.item(i).getTextContent());
-                                    break;
-                            }
-                        }
-                        if (x>-1 && y>-1) {
-                            currentLoc.setLocationCoordinates(x, y);
-                        }
-                        player.setCurrentLocation(currentLoc);
+                    try {
+                        player.setCurrentLocation(getLocation(UUID.fromString(attr.item(n).getTextContent())));
                     }
-                    else
-                    {
-                        player.setCurrentLocation(null);
-                    }
+                    catch (Exception e){ } // should only happen once
                     break;
                 case "currenttrip":
                     if (attr.item(n).hasChildNodes())
